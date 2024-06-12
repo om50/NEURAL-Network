@@ -1,0 +1,142 @@
+Question 1: Importing Libraries
+1. Import the required machine learning libraries for the analysis.
+Question 2: Reading the MNIST Dataset
+1. Read the MNIST dataset stored in ubyte format and store it as a variable
+using the TensorFlow MNIST library.
+2. Mention the location where the datasets would be stored. Use MNIST/ for
+this assignment.
+3. Download the data and ensure the datasets are unpacked correctly.
+Question 3: Defining Parameters
+1. Define the various deep learning parameters: image size, number of labels,
+learning rate, number of steps, and batch size.
+Question 4: Defining Placeholders
+1. Define a TensorFlow placeholder for the training dataset (x train) and
+the labels (y train).
+2. Print the training set placeholder variable to ensure it has been assigned
+correctly.
+Question 5: Visualizing the Dataset
+1. Print the first few digits present in the dataset.
+2. Reshape the images into 28x28 pixels and plot them using the matplotlib
+library.
+Question 6: Creating Placeholders and Variables for the
+Neural Network
+1. Create placeholders and variables for the input layer, weights, bias, and
+output layer.
+Question 7: Defining the Model
+1. Apply the softmax activation function to create the output layer.
+2. Create a placeholder to input the correct answers.
+3. Use cross-entropy as a measure to understand the precision of the model.
+Question 8: Training the Model
+1. Minimize the cross-entropy using the Gradient Descent Optimizer.
+2. Execute the commands to train the dataset for 1000 iterations.
+Question 9: Evaluating the Model
+1. Print the accuracy of the model based on the predictions made by the
+neural network
+
+
+     SOLUTION
+Question 1: Importing Libraries
+1 import t e n s o r fl o w a s t f
+2 from t e n s o r f l o w . examples . t u t o r i a l s . mnist import
+i n p u t d a t a
+3 import numpy a s np
+4 import m a t pl o tli b . p y pl o t a s p l t
+
+
+Question 2: Reading the MNIST Dataset
+1 # Read t h e d a t a from t h e TensorFlow in−b u i l t mn is t
+d a t a s e t
+2 mnist = i n p u t d a t a . r e a d d a t a s e t s ( ”MNIST/ ” , o n e h o t=True )
+
+
+Question 3: Defining Parameters
+1 # De f ine t h e v a r i o u s Deep Learn ing p ar ame ter s as w e l l as
+t h e image and l a b e l s i z e
+2 im a g e s i z e = 28
+3 n um l a b el s = 10
+4 l e a r n i n g r a t e = 0. 0 5
+5 n um b e r o f s t e p s = 1000
+6 b a t c h s i z e = 100
+
+
+Question 4: Defining Placeholders
+1 # De f ine p l a c e h o l d e r s
+2 x t r a i n = t f . pl a c e h ol d e r ( t f . fl o a t 3 2 , [ None , i m a g e s i z e ∗
+i m a g e s i z e ] )
+3 y t r a i n = t f . pl a c e h ol d e r ( t f . fl o a t 3 2 , [ None , n um l a b el s ] )
+4
+5 # P r i n t t h e t r a i n i n g s e t p l a c e h o l d e r v a r i a b l e
+6 p ri n t ( x t r a i n )
+
+
+Question 5: Visualizing the Dataset
+1 l e f t = 2. 5
+2 top = 2. 5
+3 f i g = p l t . f i g u r e ( f i g s i z e = (10 ,10 ) )
+f o r i i n r an ge ( 6 ) :
+5 ax = f i g . a d d s u b pl o t ( 3 , 2 , i +1)
+6 im = np . r e s h a p e ( mnist . t r a i n . images [ i , : ] , [ 2 8 , 2 8 ] )
+7 l a b e l = np . argmax ( mnist . t r a i n . l a b e l s [ i , : ] )
+8 ax . imshow (im , cmap=’ Greys ’ )
+9 ax . t e x t ( l e f t , top , s t r ( l a b e l ) )
+10 p l t . show ( )
+
+
+Question 6: Creating Placeholders and Variables for the
+Neural Network
+1 # A p l a c e h o l d e r f o r t h e d a t a ( i n p u t s and o u t p u t s )
+2 i n p u t s = t f . pl a c e h ol d e r ( t f . fl o a t 3 2 , [ None , 7 8 4 ] )
+3 # We igh ts : t h e w e i g h t s f o r each p i x e l f o r each c l a s s
+4 # b i a s : b i a s o f each c l a s s
+5 Weights = t f . V a ri a bl e ( t f . z e r o s ( [ 7 8 4 , 1 0 ] ) )
+6 bi a s = t f . V a ri a bl e ( t f . z e r o s ( [ 1 0 ] ) )
+
+
+Question 7: Defining the Model
+1 # The model
+2 ou tpu t s = t f . nn . so ftmax ( t f . matmul ( inpu t s , Weights ) + bi a s
+)
+3
+4 # Crea te a p l a c e h o l d e r t o i n p u t t h e r i g h t answers
+5 y = t f . pl a c e h ol d e r ( t f . fl o a t 3 2 , [ None , 1 0 ] )
+6 # A measure o f model p r e c i s i o n u s i n g c r o s s −e n t r o py
+7 c r o s s e n t r o p y = t f . reduce mean (− t f . reduce sum ( y ∗ t f . l o g
+( ou tpu t s ) , r e d u c t i o n i n d i c e s =[ 1] ) )
+
+
+Question 8: Training the Model
+1 # M in im ize t h e r e s u l t i n g c r o s s e n t r o p y u s i n g g r a d i e n t
+d e s c e n t
+2 t r a i n s t e p = t f . t r a i n . G r adien tDe scen tOp timize r (
+l e a r n i n g r a t e ) . minimize ( c r o s s e n t r o p y )
+3
+4 # I n i t i a l i z e t h e v a r i a b l e s
+5 i n i t = t f . g l o b a l v a r i a b l e s i n i t i a l i z e r ( )
+6
+7 # Crea te a s e s s i o n
+8 s e s s = t f . S e s si o n ( )
+9 s e s s . run ( i n i t )
+10
+11 # Run t r a i n i n g s t e p 1000 t ime s
+12 f o r i i n r an ge ( n um b e r o f s t e p s ) :
+13 # Get random 100 d a t a s am ple s from t h e t r a i n i n g s e t
+14 b a tch x s , b a t c h y s = mnist . t r a i n . n e x t b a t c h (
+b a t c h s i z e )
+15 # Feed them t o t h e model in p l a c e o f t h e p l a c e h o l d e r s
+d e f i n e d above
+16 s e s s . run ( t r a i n s t e p , f e e d d i c t ={i n p u t s : b a tch x s , y :
+b a t c h y s })
+
+
+Question 9: Evaluating the Model
+1 # E v al u a t e t h e model
+2 c o r r e c t p r e d i c t i o n = t f . e q u al ( t f . argmax ( outputs , 1 ) , t f .
+argmax ( y , 1 ) )
+3 ac cu r ac y = t f . reduce mean ( t f . c a s t ( c o r r e c t p r e d i c t i o n , t f .
+f l o a t 3 2 ) )
+4
+5 # P r i n t t h e accu r acy
+6 p ri n t ( ” Accuracy : ” , s e s s . run ( accu racy , f e e d d i c t ={i n p u t s :
+mnist . t e s t . images , y : mnist . t e s t . l a b e l s }) 
+
+
